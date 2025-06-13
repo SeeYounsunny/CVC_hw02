@@ -1,9 +1,9 @@
 # 뉴스 수집기 및 Gmail API 연동
 
-이 프로젝트는 네이버와 다음의 주요 뉴스를 자동으로 수집하여 CSV 파일로 저장하고, 수집 결과 요약을 Gmail API를 통해 이메일로 전송할 수 있습니다.
+이 프로젝트는 네이버의 주요 뉴스를 자동으로 수집하여 CSV 파일로 저장하고, 수집 결과 요약을 Gmail API를 통해 이메일로 전송할 수 있습니다.
 
 ## 주요 기능
-- 네이버/다음 뉴스 자동 수집 (news_collector.py)
+- 네이버 뉴스 자동 수집 (news_collector.py)
 - 수집 결과 CSV 저장 (news_data.csv 등)
 - Gmail API를 통한 이메일 전송 (send_summary.py)
 - 중복 저장 방지
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ```bash
 python news_collector.py
 ```
-- 수집된 뉴스는 `news_data.csv` 등으로 저장됩니다.
+- 수집된 뉴스는 `naver_tech_news.csv` 등으로 저장됩니다.
 
 ### 2. 이메일로 요약 전송
 ```bash
@@ -40,11 +40,11 @@ python send_summary.py
 - 수신자, 제목, 본문 등은 코드 내에서 수정 가능합니다.
 
 ## 주요 파일 설명
-- `news_collector.py`: 뉴스 크롤러 메인 스크립트
+- `news_collector.py`: 네이버 뉴스 크롤러 메인 스크립트
 - `send_summary.py`: Gmail API로 이메일 전송
 - `sans_seesunny_gmailtest.json`: 구글 OAuth 클라이언트 인증 파일
 - `token.pickle`: 인증 토큰(자동 생성, 깃허브 업로드 금지)
-- `news_data.csv`: 수집된 뉴스 데이터
+- `naver_tech_news.csv`: 수집된 네이버 뉴스 데이터
 
 ## requirements.txt 예시
 ```

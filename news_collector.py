@@ -138,19 +138,6 @@ class NewsCollector:
                 </div>
                 """
         
-        # 다음 뉴스 섹션
-        daum_news = [news for news in news_list if news['source'] == 'Daum']
-        if daum_news:
-            html_content += '<div class="section-header"><h3>📰 다음 AI/Tech 뉴스</h3></div>'
-            for news in daum_news:
-                html_content += f"""
-                <div class="news-item">
-                    <a href="{news['link']}" class="news-title">{news['title']}</a>
-                    <div class="news-source">출처: {news['source']}</div>
-                    <div class="news-date">수집시간: {news['date']}</div>
-                </div>
-                """
-        
         html_content += """
         </body>
         </html>
@@ -232,40 +219,6 @@ class NewsCollector:
             print(f"네이버 뉴스 수집 중 오류 발생: {str(e)}")
             return []
 
-    def collect_daum_news(self):
-        # 다음 IT/과학 섹션 URL
-        url = "https://news.daum.net/digital"
-        news_list = []
-        
-        try:
-            response = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            articles = soup.select('a.link_txt')
-            
-            for article in articles:
-                title = article.text.strip()
-                # AI/Tech 관련 뉴스만 필터링
-                if self.is_tech_news(title):
-                    link = article.get('href', '')
-                    
-                    news_data = {
-                        'title': title,
-                        'link': link,
-                        'source': 'Daum',
-                        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    }
-                    news_list.append(news_data)
-                    
-                    # 최대 10개까지만 수집
-                    if len(news_list) >= 10:
-                        break
-            
-            return news_list
-            
-        except Exception as e:
-            print(f"다음 뉴스 수집 중 오류 발생: {str(e)}")
-            return []
-
     def save_to_csv(self, news_list, filename='news_data.csv'):
         try:
             df = pd.DataFrame(news_list)
@@ -284,18 +237,13 @@ def main():
         'jkimak1124@gmail.com'
     ]
     
-    # 네이버 뉴스 수집
+    # 네이버 뉴스만 수집
     naver_news = collector.collect_naver_news()
     collector.save_to_csv(naver_news, 'naver_tech_news.csv')
     
-    # 다음 뉴스 수집
-    daum_news = collector.collect_daum_news()
-    collector.save_to_csv(daum_news, 'daum_tech_news.csv')
-    
     # 각 수신자에게 단계별로 이메일 전송
-    all_news = naver_news + daum_news
     for i, recipient in enumerate(recipients, 1):
-        collector.send_news_email(all_news, i, recipient)
+        collector.send_news_email(naver_news, i, recipient)
         time.sleep(1)  # 이메일 전송 간 1초 대기
     
     print("AI/Tech 뉴스 수집 및 이메일 전송이 완료되었습니다.")
