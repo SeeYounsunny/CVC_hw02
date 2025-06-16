@@ -45,3 +45,4 @@ Thumbs.db
 *.csv
 *.json
 chromedriver* token.pickle
+token.pickle

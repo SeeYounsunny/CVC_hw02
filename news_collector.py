@@ -232,9 +232,7 @@ def main():
     
     # 수신자 목록
     recipients = [
-        'jayleekr0125@gmail.com',
-        'jysin0102@gmail.com',
-        'jkimak1124@gmail.com'
+        # TODO: Add recipient email addresses here
     ]
     
     # 네이버 뉴스만 수집

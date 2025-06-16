@@ -81,7 +81,7 @@ def main():
     # 메시지 생성
     message = create_message(
         'me',
-        'seesunny@gmail.com',
+        # TODO: Add recipient email address here
         '프로젝트 요약: 뉴스 수집기',
         summary
     )
